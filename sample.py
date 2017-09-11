@@ -39,3 +39,8 @@ def post():
 if __name__ == '__main__':
     app.debug = True
     app.run(host='0.0.0.0')
+
+# http://qiita.com/ynakayama/items/2cc0b1d3cf1a2da612e4
+# http://jinja.pocoo.org/docs/dev/
+# http://tnakamura.hatenablog.com/entry/20101214/flask
+# http://python-remrin.hatenadiary.jp/entry/2017/05/01/152455

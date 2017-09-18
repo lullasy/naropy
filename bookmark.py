@@ -1,7 +1,11 @@
 import urllib.request
 from bs4 import BeautifulSoup
 
-url = "http://mypage.syosetu.com/mypagefavnovelmain/list/userid/360743/?nowcategory=1"
+userid = 360743
+ncategory = 1
+url = ("http://mypage.syosetu.com/mypagefavnovelmain/list/userid/" +
+       str(userid)+ "/?nowcategory=" +
+       str(ncategory))
 
 response = urllib.request.urlopen(url)
 
@@ -17,4 +21,4 @@ links = soup.find_all("li", class_="title")
 # print(links)
 
 for link in links:
-  print (link.find("a").get("href"))
+    print (link.find("a").get("href"))

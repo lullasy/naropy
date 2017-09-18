@@ -42,7 +42,7 @@ class Ranking:
             :param after 20130501
         """
         # TODO: validation 20130501 以降 && 火曜日でないとダメ
-        response = urlopen(defaultrank_url + "&rtype=" + date + "-d")
+        response = urlopen(defaultrank_url + "&rtype=" + date + "-w")
 
         with gzip.open(response, "rt", encoding="utf-8") as f:
             j_raw = f.read()
@@ -65,7 +65,7 @@ class Ranking:
             :param after 20130501
         """
         # TODO: validation 20130501 以降 && 1日でないとダメ
-        response = urlopen(defaultrank_url + "&rtype=" + date + "-d")
+        response = urlopen(defaultrank_url + "&rtype=" + date + "-m")
 
         with gzip.open(response, "rt", encoding="utf-8") as f:
             j_raw = f.read()
@@ -88,7 +88,7 @@ class Ranking:
             :param after 20130501
         """
         # TODO: validation 20130501 以降 && 1日でないとダメ
-        response = urlopen(defaultrank_url + "&rtype=" + date + "-d")
+        response = urlopen(defaultrank_url + "&rtype=" + date + "-q")
 
         with gzip.open(response, "rt", encoding="utf-8") as f:
             j_raw = f.read()

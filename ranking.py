@@ -13,12 +13,14 @@ class Ranking:
         get ranking
     """
 
-    def daily(self, date):
+    def daily(self, year, month, day):
         """
             daily ranking
             :param after 20130501
         """
         # TODO: validation 20130501 以降でないとダメ
+        date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
+        print(date)
         response = urlopen(defaultrank_url + "&rtype=" + date + "-d")
 
         with gzip.open(response, "rt", encoding="utf-8") as f:
@@ -36,12 +38,13 @@ class Ranking:
 
         return ranking_with_details
 
-    def weekly(self, date):
+    def weekly(self, year, month, day):
         """
             daily ranking
             :param after 20130501
         """
         # TODO: validation 20130501 以降 && 火曜日でないとダメ
+        date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
         response = urlopen(defaultrank_url + "&rtype=" + date + "-w")
 
         with gzip.open(response, "rt", encoding="utf-8") as f:
@@ -59,12 +62,13 @@ class Ranking:
 
         return ranking_with_details
 
-    def monthly(self, date):
+    def monthly(self, year, month, day):
         """
             daily ranking
             :param after 20130501
         """
         # TODO: validation 20130501 以降 && 1日でないとダメ
+        date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
         response = urlopen(defaultrank_url + "&rtype=" + date + "-m")
 
         with gzip.open(response, "rt", encoding="utf-8") as f:
@@ -82,12 +86,13 @@ class Ranking:
 
         return ranking_with_details
 
-    def quarterly(self, date):
+    def quarterly(self, year, month, day):
         """
             daily ranking
             :param after 20130501
         """
         # TODO: validation 20130501 以降 && 1日でないとダメ
+        date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
         response = urlopen(defaultrank_url + "&rtype=" + date + "-q")
 
         with gzip.open(response, "rt", encoding="utf-8") as f:
@@ -106,4 +111,4 @@ class Ranking:
         return ranking_with_details
 
 if __name__ == '__main__':
-    print(Ranking().daily(date='20130502'))
+    print(Ranking().daily(year=2013, month=5, day=2))

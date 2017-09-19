@@ -20,7 +20,6 @@ class Ranking:
         """
         # TODO: validation 20130501 以降でないとダメ
         date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
-        print(date)
         response = urlopen(defaultrank_url + "&rtype=" + date + "-d")
 
         with gzip.open(response, "rt", encoding="utf-8") as f:

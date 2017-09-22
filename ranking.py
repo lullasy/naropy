@@ -6,8 +6,6 @@ import utils
 
 # FIXME: これconstantsに逃がす
 defaultrank_url = "http://api.syosetu.com/rank/rankget/?out=json&gzip=5"
-# TODO: -d, -w とか以外共通なので切り出せるはず？
-# TODO: :param をちゃんと書く
 
 
 class Ranking:
@@ -18,7 +16,9 @@ class Ranking:
     def daily(self, year, month, day):
         """
             daily ranking
-            :param after 20130501
+            :param year    int after 2013
+            :param month   int
+            :param day     int
         """
         # TODO: validation 20130501 以降でないとダメ
         date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
@@ -29,8 +29,10 @@ class Ranking:
 
     def weekly(self, year, month, day):
         """
-            daily ranking
-            :param after 20130501
+            weekly ranking
+            :param year    int after 2013
+            :param month   int
+            :param day     int
         """
         # TODO: validation 20130501 以降 && 火曜日でないとダメ
         date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
@@ -41,8 +43,10 @@ class Ranking:
 
     def monthly(self, year, month, day):
         """
-            daily ranking
-            :param after 20130501
+            monthly ranking
+            :param year    int after 2013
+            :param month   int
+            :param day     int
         """
         # TODO: validation 20130501 以降 && 1日でないとダメ
         date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
@@ -53,8 +57,10 @@ class Ranking:
 
     def quarterly(self, year, month, day):
         """
-            daily ranking
-            :param after 20130501
+            quaeterly ranking
+            :param year    int after 2013
+            :param month   int
+            :param day     int
         """
         # TODO: validation 20130501 以降 && 1日でないとダメ
         date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
@@ -65,7 +71,7 @@ class Ranking:
 
     def __details_from_rankings(self, ranking_data):
         """
-            冗長だから切り出したやつ
+            private utils
         """
 
         with gzip.open(ranking_data, "rt", encoding="utf-8") as f:

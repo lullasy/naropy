@@ -6,6 +6,8 @@ import utils
 
 # FIXME: これconstantsに逃がす
 defaultrank_url = "http://api.syosetu.com/rank/rankget/?out=json&gzip=5"
+# TODO: -d, -w とか以外共通なので切り出せるはず？
+# TODO: :param をちゃんと書く
 
 
 class Ranking:

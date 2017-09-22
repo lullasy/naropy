@@ -1,6 +1,6 @@
+import gzip
 import json
 from urllib.request import urlopen
-import gzip
 import utils
 
 
@@ -22,19 +22,7 @@ class Ranking:
         date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
         response = urlopen(defaultrank_url + "&rtype=" + date + "-d")
 
-        with gzip.open(response, "rt", encoding="utf-8") as f:
-            j_raw = f.read()
-
-        json_object = json.loads(j_raw)
-        ranking_with_details = []
-        for nowrank in json_object:
-            print(nowrank)
-            details = utils.detail_from_ncode(nowrank["ncode"])
-            if len(details) > 0:
-                details["pt"] = nowrank["pt"]
-                details["rank"] = nowrank["rank"]
-                ranking_with_details.append(details)
-
+        ranking_with_details = self.__details_from_rankings(ranking_data=response)
         return ranking_with_details
 
     def weekly(self, year, month, day):
@@ -46,19 +34,7 @@ class Ranking:
         date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
         response = urlopen(defaultrank_url + "&rtype=" + date + "-w")
 
-        with gzip.open(response, "rt", encoding="utf-8") as f:
-            j_raw = f.read()
-
-        json_object = json.loads(j_raw)
-        ranking_with_details = []
-        for nowrank in json_object:
-            print(nowrank)
-            details = utils.detail_from_ncode(nowrank["ncode"])
-            if len(details) > 0:
-                details["pt"] = nowrank["pt"]
-                details["rank"] = nowrank["rank"]
-                ranking_with_details.append(details)
-
+        ranking_with_details = self.__details_from_rankings(ranking_data=response)
         return ranking_with_details
 
     def monthly(self, year, month, day):
@@ -70,19 +46,7 @@ class Ranking:
         date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
         response = urlopen(defaultrank_url + "&rtype=" + date + "-m")
 
-        with gzip.open(response, "rt", encoding="utf-8") as f:
-            j_raw = f.read()
-
-        json_object = json.loads(j_raw)
-        ranking_with_details = []
-        for nowrank in json_object:
-            print(nowrank)
-            details = utils.detail_from_ncode(nowrank["ncode"])
-            if len(details) > 0:
-                details["pt"] = nowrank["pt"]
-                details["rank"] = nowrank["rank"]
-                ranking_with_details.append(details)
-
+        ranking_with_details = self.__details_from_rankings(ranking_data=response)
         return ranking_with_details
 
     def quarterly(self, year, month, day):
@@ -94,20 +58,29 @@ class Ranking:
         date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
         response = urlopen(defaultrank_url + "&rtype=" + date + "-q")
 
-        with gzip.open(response, "rt", encoding="utf-8") as f:
+        ranking_with_details = self.__details_from_rankings(ranking_data=response)
+        return ranking_with_details
+
+    def __details_from_rankings(self, ranking_data):
+        """
+            冗長だから切り出したやつ
+        """
+
+        with gzip.open(ranking_data, "rt", encoding="utf-8") as f:
             j_raw = f.read()
 
         json_object = json.loads(j_raw)
-        ranking_with_details = []
+        ret = []
         for nowrank in json_object:
             print(nowrank)
             details = utils.detail_from_ncode(nowrank["ncode"])
             if len(details) > 0:
                 details["pt"] = nowrank["pt"]
                 details["rank"] = nowrank["rank"]
-                ranking_with_details.append(details)
+                ret.append(details)
 
-        return ranking_with_details
+        return ret
+
 
 if __name__ == '__main__':
     print(Ranking().daily(year=2013, month=5, day=2))

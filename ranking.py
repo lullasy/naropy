@@ -1,11 +1,39 @@
 import gzip
 import json
+import datetime
 from urllib.request import urlopen
+from functools import wraps
 import utils
 
 
 # FIXME: これconstantsに逃がす
 defaultrank_url = "http://api.syosetu.com/rank/rankget/?out=json&gzip=5"
+
+
+# http://kk6.hateblo.jp/entry/20120616/1339803112
+def validator(func):
+    @wraps(func)
+    def _validator(*args, **kwargs):
+        year = int(kwargs['year'])
+        month = int(kwargs['month'])
+        day = int(kwargs['day'])
+        date = datetime.date(year, month, day)
+        func_name = _validator.__name__
+
+        # 20130501 以降
+        if 0 > (date - datetime.date(2013, 5, 1)).days:
+            return []
+
+        # 週間ランキングは火曜日のみ
+        if func_name == "weekly" and date.weekday() != 1:
+            return []
+
+        # 月刊、四半期は1日のみ
+        if (func_name == "monthly" or func_name == "quarterly") and day != 1:
+            return []
+
+        return func(*args, **kwargs)
+    return _validator
 
 
 class Ranking:
@@ -16,6 +44,7 @@ class Ranking:
     def __init__(self):
         pass
 
+    @validator
     def daily(self, year, month, day):
         """
             daily ranking
@@ -30,6 +59,7 @@ class Ranking:
         details = self.__details_from_ranking(ranking_data=response)
         return details
 
+    @validator
     def weekly(self, year, month, day):
         """
             weekly ranking
@@ -44,6 +74,7 @@ class Ranking:
         details = self.__details_from_ranking(ranking_data=response)
         return details
 
+    @validator
     def monthly(self, year, month, day):
         """
             monthly ranking
@@ -58,6 +89,7 @@ class Ranking:
         details = self.__details_from_ranking(ranking_data=response)
         return details
 
+    @validator
     def quarterly(self, year, month, day):
         """
             quaeterly ranking
@@ -94,3 +126,4 @@ class Ranking:
 
 
 if __name__ == '__main__':
+    print(Ranking().monthly(year=2017, month=9, day=1))

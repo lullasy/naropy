@@ -13,6 +13,9 @@ class Ranking:
         get ranking
     """
 
+    def __init__(self):
+        pass
+
     def daily(self, year, month, day):
         """
             daily ranking
@@ -24,8 +27,8 @@ class Ranking:
         date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
         response = urlopen(defaultrank_url + "&rtype=" + date + "-d")
 
-        ranking_with_details = self.__details_from_rankings(ranking_data=response)
-        return ranking_with_details
+        details = self.__details_from_ranking(ranking_data=response)
+        return details
 
     def weekly(self, year, month, day):
         """
@@ -38,8 +41,8 @@ class Ranking:
         date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
         response = urlopen(defaultrank_url + "&rtype=" + date + "-w")
 
-        ranking_with_details = self.__details_from_rankings(ranking_data=response)
-        return ranking_with_details
+        details = self.__details_from_ranking(ranking_data=response)
+        return details
 
     def monthly(self, year, month, day):
         """
@@ -52,8 +55,8 @@ class Ranking:
         date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
         response = urlopen(defaultrank_url + "&rtype=" + date + "-m")
 
-        ranking_with_details = self.__details_from_rankings(ranking_data=response)
-        return ranking_with_details
+        details = self.__details_from_ranking(ranking_data=response)
+        return details
 
     def quarterly(self, year, month, day):
         """
@@ -66,10 +69,10 @@ class Ranking:
         date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
         response = urlopen(defaultrank_url + "&rtype=" + date + "-q")
 
-        ranking_with_details = self.__details_from_rankings(ranking_data=response)
-        return ranking_with_details
+        details = self.__details_from_ranking(ranking_data=response)
+        return details
 
-    def __details_from_rankings(self, ranking_data):
+    def __details_from_ranking(self, ranking_data):
         """
             private utils
         """
@@ -81,14 +84,13 @@ class Ranking:
         ret = []
         for nowrank in json_object:
             print(nowrank)
-            details = utils.detail_from_ncode(nowrank["ncode"])
-            if len(details) > 0:
-                details["pt"] = nowrank["pt"]
-                details["rank"] = nowrank["rank"]
-                ret.append(details)
+            detail = utils.detail_from_ncode(nowrank["ncode"])
+            if len(detail) > 0:
+                detail["pt"] = nowrank["pt"]
+                detail["rank"] = nowrank["rank"]
+                ret.append(detail)
 
         return ret
 
 
 if __name__ == '__main__':
-    print(Ranking().daily(year=2013, month=5, day=2))

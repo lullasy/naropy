@@ -1,5 +1,3 @@
-import gzip
-import json
 import datetime
 from urllib.request import urlopen
 from functools import wraps
@@ -45,10 +43,10 @@ def daily(year, month, day):
         :param day     int
     """
     date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
-    response = urlopen(defaultrank_url + "&rtype=" + date + "-d")
+    raw_response = urlopen(defaultrank_url + "&rtype=" + date + "-d")
+    rank = utils.json_to_dictionary(raw_response=raw_response)
 
-    details = _details_from_ranking(ranking_data=response)
-    return details
+    return rank
 
 
 @validator
@@ -60,10 +58,10 @@ def weekly(year, month, day):
         :param day     int
     """
     date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
-    response = urlopen(defaultrank_url + "&rtype=" + date + "-w")
+    raw_response = urlopen(defaultrank_url + "&rtype=" + date + "-w")
+    rank = utils.json_to_dictionary(raw_response=raw_response)
 
-    details = _details_from_ranking(ranking_data=response)
-    return details
+    return rank
 
 
 @validator
@@ -75,10 +73,10 @@ def monthly(year, month, day):
         :param day     int
     """
     date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
-    response = urlopen(defaultrank_url + "&rtype=" + date + "-m")
+    raw_response = urlopen(defaultrank_url + "&rtype=" + date + "-m")
+    rank = utils.json_to_dictionary(raw_response=raw_response)
 
-    details = _details_from_ranking(ranking_data=response)
-    return details
+    return rank
 
 
 @validator
@@ -90,32 +88,13 @@ def quarterly(year, month, day):
         :param day     int
     """
     date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
-    response = urlopen(defaultrank_url + "&rtype=" + date + "-q")
+    raw_response = urlopen(defaultrank_url + "&rtype=" + date + "-q")
+    rank = utils.json_to_dictionary(raw_response=raw_response)
 
-    details = _details_from_ranking(ranking_data=response)
-    return details
-
-
-def _details_from_ranking(ranking_data):
-    """
-        private utils
-    """
-
-    with gzip.open(ranking_data, "rt", encoding="utf-8") as f:
-        j_raw = f.read()
-
-    json_object = json.loads(j_raw)
-    ret = []
-    for nowrank in json_object:
-        print(nowrank)
-        detail = utils.detail_from_ncode(nowrank["ncode"])
-        if len(detail) > 0:
-            detail["pt"] = nowrank["pt"]
-            detail["rank"] = nowrank["rank"]
-            ret.append(detail)
-
-    return ret
+    return rank
 
 
 if __name__ == '__main__':
-    print(monthly(year=2017, month=9, day=1))
+    # print(monthly(year=2017, month=9, day=1))
+    # print(len(monthly(year=2017, month=9, day=1)))
+    pass

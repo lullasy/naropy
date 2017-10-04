@@ -52,7 +52,6 @@ class Ranking:
             :param month   int
             :param day     int
         """
-        # TODO: validation 20130501 以降でないとダメ
         date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
         response = urlopen(defaultrank_url + "&rtype=" + date + "-d")
 
@@ -67,7 +66,6 @@ class Ranking:
             :param month   int
             :param day     int
         """
-        # TODO: validation 20130501 以降 && 火曜日でないとダメ
         date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
         response = urlopen(defaultrank_url + "&rtype=" + date + "-w")
 
@@ -82,7 +80,6 @@ class Ranking:
             :param month   int
             :param day     int
         """
-        # TODO: validation 20130501 以降 && 1日でないとダメ
         date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
         response = urlopen(defaultrank_url + "&rtype=" + date + "-m")
 
@@ -97,7 +94,6 @@ class Ranking:
             :param month   int
             :param day     int
         """
-        # TODO: validation 20130501 以降 && 1日でないとダメ
         date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
         response = urlopen(defaultrank_url + "&rtype=" + date + "-q")
 

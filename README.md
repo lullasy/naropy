@@ -3,7 +3,6 @@
 ## 依存関係
 
 ```
-$ sudo apt install libmecab-dev
 $ pip3 install -r requirements.txt
 ```
 

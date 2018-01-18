@@ -1,5 +1,3 @@
-import gzip
-import json
 import datetime
 from urllib.request import urlopen
 from functools import wraps
@@ -36,94 +34,67 @@ def validator(func):
     return _validator
 
 
-class Ranking:
+@validator
+def daily(year, month, day):
     """
-        get ranking
+        daily ranking
+        :param year    int after 2013
+        :param month   int
+        :param day     int
     """
+    date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
+    raw_response = urlopen(defaultrank_url + "&rtype=" + date + "-d")
+    rank = utils.json_to_dictionary(raw_response=raw_response)
 
-    def __init__(self):
-        pass
+    return rank
 
-    @validator
-    def daily(self, year, month, day):
-        """
-            daily ranking
-            :param year    int after 2013
-            :param month   int
-            :param day     int
-        """
-        # TODO: validation 20130501 以降でないとダメ
-        date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
-        response = urlopen(defaultrank_url + "&rtype=" + date + "-d")
 
-        details = self.__details_from_ranking(ranking_data=response)
-        return details
+@validator
+def weekly(year, month, day):
+    """
+        weekly ranking
+        :param year    int after 2013
+        :param month   int
+        :param day     int
+    """
+    date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
+    raw_response = urlopen(defaultrank_url + "&rtype=" + date + "-w")
+    rank = utils.json_to_dictionary(raw_response=raw_response)
 
-    @validator
-    def weekly(self, year, month, day):
-        """
-            weekly ranking
-            :param year    int after 2013
-            :param month   int
-            :param day     int
-        """
-        # TODO: validation 20130501 以降 && 火曜日でないとダメ
-        date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
-        response = urlopen(defaultrank_url + "&rtype=" + date + "-w")
+    return rank
 
-        details = self.__details_from_ranking(ranking_data=response)
-        return details
 
-    @validator
-    def monthly(self, year, month, day):
-        """
-            monthly ranking
-            :param year    int after 2013
-            :param month   int
-            :param day     int
-        """
-        # TODO: validation 20130501 以降 && 1日でないとダメ
-        date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
-        response = urlopen(defaultrank_url + "&rtype=" + date + "-m")
+@validator
+def monthly(year, month, day):
+    """
+        monthly ranking
+        :param year    int after 2013
+        :param month   int
+        :param day     int
+    """
+    date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
+    raw_response = urlopen(defaultrank_url + "&rtype=" + date + "-m")
+    rank = utils.json_to_dictionary(raw_response=raw_response)
 
-        details = self.__details_from_ranking(ranking_data=response)
-        return details
+    return rank
 
-    @validator
-    def quarterly(self, year, month, day):
-        """
-            quaeterly ranking
-            :param year    int after 2013
-            :param month   int
-            :param day     int
-        """
-        # TODO: validation 20130501 以降 && 1日でないとダメ
-        date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
-        response = urlopen(defaultrank_url + "&rtype=" + date + "-q")
 
-        details = self.__details_from_ranking(ranking_data=response)
-        return details
+@validator
+def quarterly(year, month, day):
+    """
+        quaeterly ranking
+        :param year    int after 2013
+        :param month   int
+        :param day     int
+    """
+    date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
+    raw_response = urlopen(defaultrank_url + "&rtype=" + date + "-q")
+    rank = utils.json_to_dictionary(raw_response=raw_response)
 
-    def __details_from_ranking(self, ranking_data):
-        """
-            private utils
-        """
-
-        with gzip.open(ranking_data, "rt", encoding="utf-8") as f:
-            j_raw = f.read()
-
-        json_object = json.loads(j_raw)
-        ret = []
-        for nowrank in json_object:
-            print(nowrank)
-            detail = utils.detail_from_ncode(nowrank["ncode"])
-            if len(detail) > 0:
-                detail["pt"] = nowrank["pt"]
-                detail["rank"] = nowrank["rank"]
-                ret.append(detail)
-
-        return ret
+    return rank
 
 
 if __name__ == '__main__':
-    print(Ranking().monthly(year=2017, month=9, day=1))
+    # print(monthly(year=2017, month=9, day=1))
+    # print(len(monthly(year=2017, month=9, day=1)))
+    pass

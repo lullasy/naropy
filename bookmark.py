@@ -22,6 +22,8 @@ all_count_raw = str(soup.find("span", class_="allcount").string)
 total_bookmarks = re.search("\d+", all_count_raw).group()
 print(total_bookmarks)
 
+# TODO: 全ページにやる。
+# TODO: さすがにゴミみたいなスライスをなんとかする。
 re_novel_id = re.compile("https://ncode.syosetu.com/[a-z0-9]+/")
 links = str(soup.find_all("li", class_="title"))
 list_bookmarks = re_novel_id.findall(links)

@@ -12,7 +12,6 @@ def get_all_bookmarks(userid, category):
     all_count_raw = str(soup.find("span", class_="allcount").string)
     total_bookmarks = int(re.search("\d+", all_count_raw).group())
 
-    # TODO: 全部のブクマ数がわかるので、10で割ってpager_kazuを無視する！
     all_bookmarks = []
     for page in range(int(total_bookmarks / 10)):
         now_bookmarks = bookmarks_from_page(userid=userid,
@@ -30,23 +29,15 @@ def bookmarks_from_page(userid, category, page):
     response = urllib.request.urlopen(url)
     soup = BeautifulSoup(response, "html.parser")
 
-    # bookmarks = soup.find_all("div", id="novellist")
-    # print(bookmarks)
-    # print(type(bookmarks))
-
-    # links = bookmarks.find_all("li", class_="title")
-
     links = soup.find_all("li", class_="title")
-    # print(links)
 
     bookmarks = []
     for link in links:
         full_url = link.find("a").get("href")
-        # TODO: ゴミ、ダメ、直す
+        # TODO: ゴミ、ダメ、なんとかする
         ncode = full_url[26:-1]
         bookmarks.append(ncode)
 
-    # print(bookmarks)
     return bookmarks
 
 

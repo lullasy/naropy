@@ -1,7 +1,7 @@
 import datetime
 from urllib.request import urlopen
 from functools import wraps
-import utils
+import _utils
 
 
 # FIXME: これconstantsに逃がす

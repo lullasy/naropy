@@ -2,7 +2,7 @@ import json
 from urllib.request import urlopen
 import gzip
 
-# FIXME: これconstantsに逃がす
+# FIXME: これconstantsとかに逃がしたい
 default_url = "http://api.syosetu.com/novelapi/api/?out=json&gzip=5"
 
 

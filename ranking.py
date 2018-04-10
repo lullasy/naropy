@@ -34,67 +34,70 @@ def validator(func):
     return _validator
 
 
-@validator
-def daily(year, month, day):
-    """
-        daily ranking
-        :param year    int after 2013
-        :param month   int
-        :param day     int
-    """
-    date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
-    raw_response = urlopen(defaultrank_url + "&rtype=" + date + "-d")
-    rank = utils.json_to_dictionary(raw_response=raw_response)
+class Ranking():
+    def __init__(self):
+        pass
 
-    return rank
+    @validator
+    def daily(self, year, month, day):
+        """
+            daily ranking
+            :param year    int after 2013
+            :param month   int
+            :param day     int
+        """
+        date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
+        raw_response = urlopen(defaultrank_url + "&rtype=" + date + "-d")
+        rank = _utils.json_to_dictionary(raw_response=raw_response)
 
+        return rank
 
-@validator
-def weekly(year, month, day):
-    """
-        weekly ranking
-        :param year    int after 2013
-        :param month   int
-        :param day     int
-    """
-    date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
-    raw_response = urlopen(defaultrank_url + "&rtype=" + date + "-w")
-    rank = utils.json_to_dictionary(raw_response=raw_response)
+    @validator
+    def weekly(self, year, month, day):
+        """
+            weekly ranking
+            :param year    int after 2013
+            :param month   int
+            :param day     int
+        """
+        date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
+        raw_response = urlopen(defaultrank_url + "&rtype=" + date + "-w")
+        rank = _utils.json_to_dictionary(raw_response=raw_response)
 
-    return rank
+        return rank
 
+    @validator
+    def monthly(self, year, month, day):
+        """
+            monthly ranking
+            :param year    int after 2013
+            :param month   int
+            :param day     int
+        """
+        date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
+        raw_response = urlopen(defaultrank_url + "&rtype=" + date + "-m")
+        rank = _utils.json_to_dictionary(raw_response=raw_response)
 
-@validator
-def monthly(year, month, day):
-    """
-        monthly ranking
-        :param year    int after 2013
-        :param month   int
-        :param day     int
-    """
-    date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
-    raw_response = urlopen(defaultrank_url + "&rtype=" + date + "-m")
-    rank = utils.json_to_dictionary(raw_response=raw_response)
+        return rank
 
-    return rank
+    @validator
+    def quarterly(self, year, month, day):
+        """
+            quaeterly ranking
+            :param year    int after 2013
+            :param month   int
+            :param day     int
+        """
+        date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
+        raw_response = urlopen(defaultrank_url + "&rtype=" + date + "-q")
+        rank = _utils.json_to_dictionary(raw_response=raw_response)
 
-
-@validator
-def quarterly(year, month, day):
-    """
-        quaeterly ranking
-        :param year    int after 2013
-        :param month   int
-        :param day     int
-    """
-    date = str(year).zfill(4) + str(month).zfill(2) + str(day).zfill(2)
-    raw_response = urlopen(defaultrank_url + "&rtype=" + date + "-q")
-    rank = utils.json_to_dictionary(raw_response=raw_response)
-
-    return rank
+        return rank
 
 
 if __name__ == '__main__':
     # print(monthly(year=2017, month=9, day=1))
     # print(len(monthly(year=2017, month=9, day=1)))
+    rank = Ranking()
+    print(rank.monthly(year=2017, month=9, day=1))
     pass

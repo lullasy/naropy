@@ -9,14 +9,14 @@ defaultrank_url = "http://api.syosetu.com/rank/rankget/?out=json&gzip=5"
 
 
 # http://kk6.hateblo.jp/entry/20120616/1339803112
-def validator(func):
+def ranking_validator(func):
     @wraps(func)
-    def _validator(*args, **kwargs):
+    def _ranking_validator(*args, **kwargs):
         year = int(kwargs['year'])
         month = int(kwargs['month'])
         day = int(kwargs['day'])
         date = datetime.date(year, month, day)
-        func_name = _validator.__name__
+        func_name = _ranking_validator.__name__
 
         # 20130501 以降
         if 0 > (date - datetime.date(2013, 5, 1)).days:
@@ -31,15 +31,15 @@ def validator(func):
             return []
 
         return func(*args, **kwargs)
-    return _validator
+    return _ranking_validator
 
 
 class Ranking():
     def __init__(self):
         pass
 
-    @validator
-    def daily(self, year, month, day):
+    @ranking_validator
+    def ranking_daily(self, year, month, day):
         """
             daily ranking
             :param year    int after 2013
@@ -52,8 +52,8 @@ class Ranking():
 
         return rank
 
-    @validator
-    def weekly(self, year, month, day):
+    @ranking_validator
+    def ranking_weekly(self, year, month, day):
         """
             weekly ranking
             :param year    int after 2013
@@ -66,8 +66,8 @@ class Ranking():
 
         return rank
 
-    @validator
-    def monthly(self, year, month, day):
+    @ranking_validator
+    def ranking_monthly(self, year, month, day):
         """
             monthly ranking
             :param year    int after 2013
@@ -80,8 +80,8 @@ class Ranking():
 
         return rank
 
-    @validator
-    def quarterly(self, year, month, day):
+    @ranking_validator
+    def ranking_quarterly(self, year, month, day):
         """
             quaeterly ranking
             :param year    int after 2013

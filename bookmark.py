@@ -7,7 +7,7 @@ class Bookmark:
     def __init__(self):
         pass
 
-    def get_all_bookmarks(self, userid, category):
+    def bookmark_get_all(self, userid, category):
         url = ("http://mypage.syosetu.com/mypagefavnovelmain/list/userid/" +
                str(userid) + "index.php?nowcategory=" +
                str(category) + "&p=1")
@@ -25,7 +25,7 @@ class Bookmark:
 
         return all_bookmarks
 
-    def bookmarks_from_page(self, userid, category, page):
+    def bookmark_get_from_page(self, userid, category, page):
         url = ("http://mypage.syosetu.com/mypagefavnovelmain/list/userid/" +
                str(userid) + "index.php?nowcategory=" +
                str(category) + "&p=" + str(page))
